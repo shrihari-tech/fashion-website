@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; }
+        input { width: 90%; padding: 8px; margin: 10px 0; }
+        button { width: 100%; padding: 10px; cursor: pointer; }
+        .hidden { display: none; }
+    </style>
+  
+</head>
+<body>
+
+    <!-- User Input Form -->
+    <div class="container" id="form-container">
+        <h2>Enter Your Details</h2>
+        <input type="text" id="username" placeholder="Enter Username" required>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <input type="text" id="name" placeholder="Enter Full Name" required>
+        <input type="number" id="age" placeholder="Enter Age" required>
+        <input type="text" id="state" placeholder="Enter State" required>
+        <input type="text" id="phone" placeholder="Enter Phone Number" required>
+        <button onclick="submitDetails()">Submit</button>
+    </div>
+
+    <!-- Success Message & User Details -->
+    <div class="container hidden" id="success-container">
+        <h2>Details Received Successfully! ✅</h2>
+        <p><strong>Username:</strong> <span id="user-display"></span></p>
+        <p><strong>Full Name:</strong> <span id="name-display"></span></p>
+        <p><strong>Age:</strong> <span id="age-display"></span></p>
+        <p><strong>State:</strong> <span id="state-display"></span></p>
+        <p><strong>Phone Number:</strong> <span id="phone-display"></span></p>
+    </div>
+
+    <script>
+        function submitDetails() {
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let fullName = document.getElementById("name").value.trim();
+            let age = document.getElementById("age").value.trim();
+            let state = document.getElementById("state").value.trim();
+            let phone = document.getElementById("phone").value.trim();
+
+            if (!username || !password || !fullName || !age || !state || !phone) {
+                alert("All fields are required!");
+                return;
+            }
+
+            let userDetails = { username, password, fullName, age, state, phone };
+            localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+            displaySuccess();
+        }
+
+        function displaySuccess() {
+            let userData = JSON.parse(localStorage.getItem("userDetails"));
+            
+
+            document.getElementById("user-display").innerText = userData.username;
+            document.getElementById("name-display").innerText = userData.fullName;
+            document.getElementById("age-display").innerText = userData.age;
+            document.getElementById("state-display").innerText = userData.state;
+            document.getElementById("phone-display").innerText = userData.phone;
+
+            document.getElementById("form-container").classList.add("hidden");
+            document.getElementById("success-container").classList.remove("hidden");
+        }
+
+        // Auto-display success page if data is already in localStorage
+        if (localStorage.getItem("userDetails")) {
+            displaySuccess();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <!-- You can reuse your header or create a new one -->
+    <h1>Your Shopping Cart</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <!-- Other navigation links as needed -->
+    </nav>
+  </header>
+
+  <main>
+    <div id="cart-container">
+      <!-- Cart items will be loaded here by JavaScript -->
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartContainer = document.getElementById('cart-container');
+      // Retrieve the cart from localStorage
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length===0){
+        cartContainer.innerHTML = '<p>Your cart is empty!</p>';
+        return;
+      }
+
+      // Loop through each product and display its details
+      cart.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+
+        itemDiv.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" width="100">
+          <h2>${item.name}</h2>
+          <p>Price: ₹${item.price}</p>
+          <p>Quantity: ${item.quantity}</p>
+        `;
+        cartContainer.appendChild(itemDiv);
+      });
+    });
+  </script>
+</body>
+</html>
